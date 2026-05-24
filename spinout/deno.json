@@ -1,0 +1,7 @@
+{
+  "tasks": {
+    "dev": "deno run --allow-net --allow-read --allow-env npm:vite",
+    "build": "deno run --allow-net --allow-read --allow-write --allow-env npm:vite build",
+    "serve": "deno run --allow-net --allow-read https://deno.land/std/http/file_server.ts dist/"
+  }
+}
