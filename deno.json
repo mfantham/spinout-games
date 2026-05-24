@@ -1,0 +1,10 @@
+{
+  "tasks": {
+    "build": "cd spinout && deno task build"
+  },
+  "deploy": {
+    "runtime": "static",
+    "build": "deno task build",
+    "staticDir": "spinout/dist"
+  }
+}
