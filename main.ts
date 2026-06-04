@@ -1,3 +1,8 @@
-import { serveDir } from "jsr:@std/http/file-server";
+import { App, staticFiles } from "fresh";
+import { define, type State } from "./utils.ts";
 
-Deno.serve((req) => serveDir(req, { fsRoot: "./spinout/dist" }));
+export const app = new App<State>();
+
+app.use(staticFiles());
+
+app.fsRoutes();
