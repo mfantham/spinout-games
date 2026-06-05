@@ -30,7 +30,6 @@ export default function Dial({
         .filter(Boolean)
         .join(" ")}
       onClick={onClick}
-      disabled={false}
       aria-label={isAtWindow
         ? `Dial ${position} — ${rotatable ? "click to rotate" : "locked"}`
         : `Dial ${position} — click to slide into window`}

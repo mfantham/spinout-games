@@ -26,9 +26,6 @@ export default function DialBar(
     }
   };
 
-  const slideLeft = () => onSlide(Math.min(dials.length, windowDial + 1));
-  const slideRight = () => onSlide(Math.max(1, windowDial - 1));
-
   return (
     <section class="dial-bar-wrap" aria-label="Spinout puzzle board">
       <div class={`dial-bar ${isWon ? "dial-bar--won" : ""}`}>
@@ -57,7 +54,7 @@ export default function DialBar(
         <button
           type="button"
           class="slide-button"
-          onClick={slideLeft}
+          onClick={() => onSlide(Math.min(dials.length, windowDial + 1))}
           disabled={windowDial >= dials.length}
           aria-label="Slide bar left"
         >
@@ -69,7 +66,7 @@ export default function DialBar(
         <button
           type="button"
           class="slide-button"
-          onClick={slideRight}
+          onClick={() => onSlide(Math.max(1, windowDial - 1))}
           disabled={windowDial <= 1}
           aria-label="Slide bar right"
         >
