@@ -11,6 +11,7 @@ export function useSpinout() {
   const [dials, setDials] = useState<boolean[]>(INITIAL_DIALS);
   const [history, setHistory] = useState<boolean[][]>([]);
   const [moveCount, setMoveCount] = useState(0);
+  const [windowDial, setWindowDial] = useState<number>(1);
 
   const isWon = useMemo(() => areAllSolved(dials), [dials]);
 
@@ -19,21 +20,28 @@ export function useSpinout() {
     [dials],
   );
 
+  const slideToWindow = useCallback(
+    (dial: number) => {
+      if (dial >= 1 && dial <= dials.length) {
+        setWindowDial(dial);
+      }
+    },
+    [dials.length],
+  );
+
   const turn = useCallback(
     (dial: number) => {
-      if (isWon || !canTurnDial(dials, dial)) {
+      if (isWon || dial !== windowDial || !canTurnDial(dials, dial)) {
         return;
       }
 
       setHistory((previousHistory) => [...previousHistory, dials]);
       setDials((previousDials) =>
-        previousDials.map((value, index) =>
-          index === dial - 1 ? !value : value
-        )
+        previousDials.map((value, index) => index === dial - 1 ? !value : value)
       );
       setMoveCount((previousCount) => previousCount + 1);
     },
-    [dials, isWon],
+    [dials, isWon, windowDial],
   );
 
   const undo = useCallback(() => {
@@ -50,6 +58,7 @@ export function useSpinout() {
     setDials(INITIAL_DIALS);
     setHistory([]);
     setMoveCount(0);
+    setWindowDial(1);
   }, []);
 
   const hint = useCallback(() => nextHintMove(dials), [dials]);
@@ -59,6 +68,8 @@ export function useSpinout() {
     moveCount,
     isWon,
     canMove,
+    windowDial,
+    slideToWindow,
     turn,
     undo,
     reset,

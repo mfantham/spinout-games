@@ -6,8 +6,18 @@ import { useSpinout } from "../lib/useSpinout.ts";
 import { solutionLength } from "../lib/grayCode.ts";
 
 export default function SpinoutGame() {
-  const { dials, moveCount, isWon, turn, undo, reset, hint, canUndo } =
-    useSpinout();
+  const {
+    dials,
+    moveCount,
+    isWon,
+    windowDial,
+    slideToWindow,
+    turn,
+    undo,
+    reset,
+    hint,
+    canUndo,
+  } = useSpinout();
   const [hintDial, setHintDial] = useState<number | null>(null);
   const par = useMemo(() => solutionLength(dials.length), [dials.length]);
 
@@ -42,8 +52,8 @@ export default function SpinoutGame() {
         <header class="app-header">
           <h1>Spinout</h1>
           <p>
-            Flip the seven dials from right to left. Each turn follows the
-            bar&apos;s locking rule, so every move matters.
+            Slide the bar to position a dial in the window, then rotate it. Turn
+            all seven dials horizontal to slide the bar free.
           </p>
         </header>
 
@@ -52,11 +62,17 @@ export default function SpinoutGame() {
             ? `Solved in ${moveCount} moves${
               moveCount <= par ? " — under par!" : ""
             }`
-            : "Turn every dial horizontal to slide the bar free."}
+            : "Slide the bar, then rotate the dial in the window."}
         </div>
 
         <div class="game-grid">
-          <DialBar dials={dials} hintDial={hintDial} onTurn={handleTurn} />
+          <DialBar
+            dials={dials}
+            hintDial={hintDial}
+            windowDial={windowDial}
+            onTurn={handleTurn}
+            onSlide={slideToWindow}
+          />
           <Controls
             moveCount={moveCount}
             onReset={handleReset}
