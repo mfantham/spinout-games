@@ -1,8 +1,9 @@
 interface DialProps {
   position: number;
   isHorizontal: boolean;
-  isAtWindow: boolean;
+  isAtBase: boolean;
   canRotate: boolean;
+  canSlide: boolean;
   isHinted: boolean;
   onClick: () => void;
 }
@@ -10,12 +11,25 @@ interface DialProps {
 export default function Dial({
   position,
   isHorizontal,
-  isAtWindow,
+  isAtBase,
   canRotate,
+  canSlide,
   isHinted,
   onClick,
 }: DialProps) {
-  const rotatable = isAtWindow && canRotate;
+  const rotatable = isAtBase && canRotate;
+
+  let ariaLabel: string;
+  if (isAtBase) {
+    ariaLabel = `Dial ${position} — ${
+      rotatable ? "click to rotate" : "locked"
+    }`;
+  } else if (canSlide) {
+    ariaLabel = `Dial ${position} — click to slide into base position`;
+  } else {
+    ariaLabel =
+      `Dial ${position} — slider locked, rotate dial ${position} first`;
+  }
 
   return (
     <button
@@ -23,16 +37,15 @@ export default function Dial({
       class={[
         "dial",
         isHorizontal ? "dial--horizontal" : "dial--vertical",
-        isAtWindow ? "dial--in-window" : "dial--outside-window",
+        isAtBase ? "dial--at-base" : "dial--on-slider",
         rotatable ? "dial--rotatable" : "",
+        !isAtBase && !canSlide ? "dial--slider-locked" : "",
         isHinted ? "dial--hinted" : "",
       ]
         .filter(Boolean)
         .join(" ")}
       onClick={onClick}
-      aria-label={isAtWindow
-        ? `Dial ${position} — ${rotatable ? "click to rotate" : "locked"}`
-        : `Dial ${position} — click to slide into window`}
+      aria-label={ariaLabel}
       title={`Dial ${position}`}
     >
       <span class="dial__bezel">

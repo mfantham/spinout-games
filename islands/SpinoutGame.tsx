@@ -10,8 +10,8 @@ export default function SpinoutGame() {
     dials,
     moveCount,
     isWon,
-    windowDial,
-    slideToWindow,
+    sliderDial,
+    slide,
     turn,
     undo,
     reset,
@@ -52,8 +52,8 @@ export default function SpinoutGame() {
         <header class="app-header">
           <h1>Spinout</h1>
           <p>
-            Slide the bar to position a dial in the window, then rotate it. Turn
-            all seven dials horizontal to slide the bar free.
+            Slide the bar so a dial is at the base position, then rotate it.
+            Turn all seven dials horizontal to slide the bar free.
           </p>
         </header>
 
@@ -62,16 +62,16 @@ export default function SpinoutGame() {
             ? `Solved in ${moveCount} moves${
               moveCount <= par ? " — under par!" : ""
             }`
-            : "Slide the bar, then rotate the dial in the window."}
+            : "Rotate the dial at the base position, then slide to the next."}
         </div>
 
         <div class="game-grid">
           <DialBar
             dials={dials}
             hintDial={hintDial}
-            windowDial={windowDial}
+            sliderDial={sliderDial}
             onTurn={handleTurn}
-            onSlide={slideToWindow}
+            onSlide={slide}
           />
           <Controls
             moveCount={moveCount}
