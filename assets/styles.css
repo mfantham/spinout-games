@@ -1,8 +1,14 @@
 :root {
   color-scheme: dark;
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
     sans-serif;
-  background: radial-gradient(
+  background:
+    radial-gradient(
       circle at top,
       rgba(77, 208, 225, 0.2),
       transparent 35%
@@ -40,7 +46,8 @@ input {
   border-radius: 28px;
   background: rgba(10, 13, 24, 0.88);
   border: 1px solid rgba(127, 255, 255, 0.18);
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45),
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.45),
     inset 0 1px 0 rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(18px);
 }
@@ -88,126 +95,205 @@ input {
   gap: 28px;
 }
 
+/* ── Dial bar ─────────────────────────────────────────────────────── */
+
 .dial-bar-wrap {
   display: grid;
-  gap: 12px;
+  gap: 14px;
 }
 
 .dial-bar {
   position: relative;
-  padding: 28px 36px 34px;
-  border-radius: 999px;
-  background: linear-gradient(
+  padding: 20px 28px;
+  border-radius: 16px;
+  background:
+    linear-gradient(
       180deg,
-      rgba(58, 66, 89, 0.96),
-      rgba(23, 27, 41, 0.96)
+      rgba(40, 48, 68, 0.98),
+      rgba(16, 20, 33, 0.98)
     ),
     linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.08),
-      transparent 35%,
-      rgba(255, 255, 255, 0.04)
-    );
+    90deg,
+    rgba(255, 255, 255, 0.06),
+    transparent 35%,
+    rgba(255, 255, 255, 0.03)
+  );
   border: 1px solid rgba(152, 169, 199, 0.22);
-  box-shadow: inset 0 6px 16px rgba(255, 255, 255, 0.08),
-    inset 0 -10px 24px rgba(0, 0, 0, 0.45), 0 20px 36px rgba(0, 0, 0, 0.35);
-  overflow: hidden;
+  box-shadow:
+    inset 0 4px 12px rgba(255, 255, 255, 0.06),
+    inset 0 -8px 20px rgba(0, 0, 0, 0.5),
+    0 20px 36px rgba(0, 0, 0, 0.35);
+  overflow: visible;
 }
 
 .dial-bar--won {
   animation: slide-away 1.4s ease-in forwards;
 }
 
-.dial-bar__rail {
-  position: absolute;
-  inset: 50% 48px auto;
-  height: 24px;
-  transform: translateY(-50%);
-  border-radius: 999px;
-  background: linear-gradient(
-    180deg,
-    rgba(10, 13, 24, 0.9),
-    rgba(56, 66, 92, 0.85)
-  );
-  box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.06),
-    inset 0 -6px 8px rgba(0, 0, 0, 0.45);
-}
-
-.dial-bar__slots {
+.dial-bar__tray {
   position: relative;
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: clamp(8px, 2vw, 18px);
+  gap: clamp(6px, 1.5vw, 14px);
+  align-items: center;
 }
 
+/* Each slot is the circular "window" cut into the bar */
 .dial-bar__slot {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
-.dial-bar__handle {
-  position: absolute;
-  top: 50%;
-  width: 16px;
-  height: 72px;
-  border-radius: 999px;
-  transform: translateY(-50%);
+/* The active window: glowing ring around the active slot */
+.dial-bar__slot--active .dial__bezel {
+  border-color: rgba(123, 243, 255, 0.9);
+  box-shadow:
+    0 0 0 2px rgba(123, 243, 255, 0.18),
+    0 0 18px rgba(123, 243, 255, 0.55),
+    inset 0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+/* ── Slide controls ──────────────────────────────────────────────── */
+
+.dial-bar__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.dial-bar__base-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: rgba(123, 243, 255, 0.75);
+  text-transform: uppercase;
+  min-width: 200px;
+  text-align: center;
+}
+
+.dial-bar__controls--locked .dial-bar__base-label {
+  color: rgba(255, 180, 80, 0.85);
+}
+
+.slide-button {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(123, 243, 255, 0.3);
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.2),
-    rgba(58, 68, 90, 0.8)
+    rgba(16, 35, 48, 0.98),
+    rgba(9, 18, 27, 0.98)
   );
-  box-shadow: inset 0 2px 5px rgba(255, 255, 255, 0.08),
-    0 0 18px rgba(0, 0, 0, 0.3);
+  color: #7bf3ff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: transform 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
 }
 
-.dial-bar__handle--left {
-  left: 16px;
+.slide-button:hover:enabled {
+  transform: scale(1.1);
+  box-shadow: 0 0 14px rgba(123, 243, 255, 0.3);
 }
 
-.dial-bar__handle--right {
-  right: 16px;
+.slide-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
-.dial-bar__legend {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 14px;
-  font-size: 0.88rem;
-  color: rgba(233, 245, 255, 0.62);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
+/* ── Dial ─────────────────────────────────────────────────────────── */
 
 .dial {
   position: relative;
-  width: clamp(58px, 8vw, 76px);
-  height: clamp(118px, 16vw, 152px);
+  width: clamp(56px, 8vw, 74px);
+  height: clamp(56px, 8vw, 74px);
   padding: 0;
   border: 0;
   background: transparent;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
   transition: transform 180ms ease;
 }
 
-.dial--moveable {
+.dial--on-slider {
   cursor: pointer;
 }
 
-.dial--moveable:hover {
-  transform: translateY(-3px);
+.dial--on-slider:hover .dial__knob {
+  opacity: 0.7;
 }
 
-.dial--locked {
+/* Dials on the slider when the bar is locked cannot be clicked to slide */
+.dial--slider-locked {
   cursor: not-allowed;
+}
+
+.dial--slider-locked .dial__knob,
+.dial--slider-locked:hover .dial__knob {
+  opacity: 0.25;
+  filter: saturate(0.1);
+}
+
+.dial--at-base.dial--rotatable {
+  cursor: pointer;
+}
+
+.dial--at-base.dial--rotatable:hover {
+  transform: scale(1.05);
+}
+
+.dial--at-base:not(.dial--rotatable) {
+  cursor: default;
+}
+
+/* Circular bezel — the visible "cut-out window" in the bar */
+.dial__bezel {
+  position: relative;
+  width: clamp(48px, 6.8vw, 64px);
+  height: clamp(48px, 6.8vw, 64px);
+  border-radius: 50%;
+  border: 2px solid rgba(90, 110, 145, 0.45);
+  background: radial-gradient(
+    circle at 40% 30%,
+    rgba(22, 28, 46, 0.9),
+    rgba(6, 8, 16, 0.95)
+  );
+  box-shadow:
+    inset 0 3px 8px rgba(0, 0, 0, 0.7),
+    inset 0 -2px 4px rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 220ms ease, box-shadow 220ms ease;
+}
+
+/* Dials on the slider (not at base) are dimmed */
+.dial--on-slider .dial__bezel {
+  border-color: rgba(70, 88, 115, 0.3);
+}
+
+.dial--on-slider .dial__knob {
+  opacity: 0.38;
+  filter: saturate(0.25);
+}
+
+/* Locked dial at base — visible but not rotatable */
+.dial--at-base:not(.dial--rotatable) .dial__knob {
+  opacity: 0.65;
+  filter: saturate(0.5);
 }
 
 .dial__knob {
   position: relative;
-  width: clamp(28px, 4vw, 34px);
-  height: clamp(96px, 12vw, 122px);
+  width: clamp(16px, 2.2vw, 20px);
+  height: clamp(38px, 5.4vw, 48px);
   border-radius: 999px;
   background: linear-gradient(
     180deg,
@@ -216,33 +302,43 @@ input {
     #1a5166 42%,
     #0d2631 100%
   );
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.45),
+  box-shadow:
+    0 6px 14px rgba(0, 0, 0, 0.5),
     inset 0 2px 4px rgba(255, 255, 255, 0.45),
-    inset 0 -10px 12px rgba(0, 0, 0, 0.42);
+    inset 0 -6px 8px rgba(0, 0, 0, 0.42);
   transform-origin: center;
-  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 220ms ease, filter 220ms ease, opacity 220ms ease;
+  transition:
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 220ms ease,
+    filter 220ms ease,
+    opacity 220ms ease;
 }
 
 .dial--horizontal .dial__knob {
   transform: rotate(90deg);
 }
 
-.dial--locked .dial__knob {
-  opacity: 0.5;
-  filter: saturate(0.35);
+.dial--hinted .dial__bezel {
+  border-color: rgba(123, 243, 255, 0.7);
+  box-shadow:
+    0 0 0 2px rgba(123, 243, 255, 0.12),
+    0 0 20px rgba(123, 243, 255, 0.6),
+    inset 0 3px 8px rgba(0, 0, 0, 0.7);
 }
 
 .dial--hinted .dial__knob {
-  box-shadow: 0 0 0 3px rgba(123, 243, 255, 0.25),
-    0 0 26px rgba(123, 243, 255, 0.85),
+  opacity: 1;
+  filter: none;
+  box-shadow:
+    0 0 0 2px rgba(123, 243, 255, 0.25),
+    0 0 20px rgba(123, 243, 255, 0.8),
     inset 0 2px 4px rgba(255, 255, 255, 0.45),
-    inset 0 -10px 12px rgba(0, 0, 0, 0.42);
+    inset 0 -6px 8px rgba(0, 0, 0, 0.42);
 }
 
 .dial__stripe {
   position: absolute;
-  inset: 12px 9px;
+  inset: 8px 5px;
   border-radius: 999px;
   background: linear-gradient(
     180deg,
@@ -253,19 +349,21 @@ input {
 
 .dial__label {
   position: absolute;
-  inset: auto 50% 10px auto;
+  inset: auto 50% 6px auto;
   transform: translateX(50%);
-  width: 22px;
-  height: 22px;
+  width: 16px;
+  height: 16px;
   display: grid;
   place-items: center;
   border-radius: 50%;
   background: rgba(4, 10, 16, 0.82);
   color: #dffcff;
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   font-weight: 700;
   box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.16);
 }
+
+/* ── Controls ─────────────────────────────────────────────────────── */
 
 .controls {
   display: flex;
@@ -321,6 +419,8 @@ input {
   border-color: rgba(255, 199, 111, 0.28);
 }
 
+/* ── Leaderboard ─────────────────────────────────────────────────── */
+
 .leaderboard {
   padding: 18px 20px;
   border-radius: 20px;
@@ -369,6 +469,8 @@ input {
   font-size: 0.94rem;
 }
 
+/* ── Animations ───────────────────────────────────────────────────── */
+
 @keyframes slide-away {
   0% {
     transform: translateX(0);
@@ -380,21 +482,15 @@ input {
   }
 }
 
+/* ── Responsive ───────────────────────────────────────────────────── */
+
 @media (max-width: 760px) {
   .app-card {
     padding: 24px 18px;
   }
 
   .dial-bar {
-    padding: 22px 18px 28px;
-  }
-
-  .dial-bar__rail {
-    inset-inline: 30px;
-  }
-
-  .dial-bar__handle {
-    display: none;
+    padding: 16px 14px;
   }
 
   .leaderboard__item {
